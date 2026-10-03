@@ -283,9 +283,9 @@ input, run on Niente, which has neither. `spec/README.md` explains how to write 
 On 28 Sep 2026, with the ten Kids apps in (the eighth build wave), the Hackety Hack lanes (w9) and
 the w10 scarpe lane, the suite has 1062 cases. On the native display 1047 pass, 14 are expected
 failures, each pointing at its ledger row, and one is skipped; none fail. On Niente 545 pass. The Kids apps' ten checks are among them, in `spec/kids`, as the
-showcase's six are in `spec/showcase`. The eleven apps in `examples/native/legendary` keep their
-twelve checks beside them, where a plain `spec/run` does not look:
-`spec/run --display native examples/native/legendary` runs them, and all 12 pass.
+showcase's six are in `spec/showcase`. The twelve apps in `examples/native/legendary` keep their
+fourteen checks beside them, where a plain `spec/run` does not look:
+`spec/run --display native examples/native/legendary` runs them, and all 14 pass.
 
 `spec/run --examples --display native` smoke-runs every example under `examples/`: it loads, it
 draws something that is not one flat colour, and neither side crashes. On Ruby 4.0, 360 pass and

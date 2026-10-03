@@ -1,0 +1,46 @@
+---
+display: native
+testability: interactive
+timeout: 60
+----------- app code
+srand(7)
+load File.join(Scarpe::Native::ROOT, "examples/native/legendary/dwemthy/dwemthy.rb")
+----------- test code
+require "json"
+app = Shoes.APPS.first
+texts = -> { paras.map(&:text) }
+rabbit = -> { app.instance_variable_get(:@rabbit) }
+save = File.join(Dir.home, ".local", "share", "dwemthys_array", "rabbit.json")
+
+click_on "Enter the Array"
+overlay = app.instance_variable_get(:@overlay)
+assert overlay.style[:hidden], "no overlay while the rabbit lives"
+
+# Bombs until the rabbit falls: ten life is not much, whoever is at the front
+8.times do
+  break if rabbit.().life <= 0
+
+  press_key "*"
+  advance 8
+end
+assert_operator rabbit.().life, :<=, 0
+refute overlay.style[:hidden], "the overlay says so"
+assert_includes texts.(), "The Rabbit is too dead to fight!"
+assert texts.().any? { |t| t.start_with?("Ten life points against a") }, "the first death explains itself"
+assert_equal 1, JSON.parse(File.read(save))["rabbits_lost"]
+
+# Too dead to fight is a message, not a crash
+press_key "^"
+advance 2
+assert app.instance_variable_get(:@log).contents.map(&:text).include?("[Rabbit is too dead to fight!]")
+
+# The same rabbit, again: full life, and the monster keeps its bruises
+monster = app.instance_variable_get(:@array).first
+click_on "Try again, unchanged"
+assert_equal 10, rabbit.().life
+assert overlay.style[:hidden]
+assert_same monster, app.instance_variable_get(:@array).first
+
+# The fallen are remembered on the title page
+click_on "menu"
+assert texts.().any? { |t| t.include?("1 rabbit has fallen in the Array.") }

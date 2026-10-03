@@ -403,6 +403,8 @@
 "examples/native/legendary/bloop_sequencer/icon.rb": {category: "native/legendary/bloop_sequencer", needs: [], status: "loads"}
 "examples/native/legendary/constellations/constellations.rb": {category: "native/legendary/constellations", needs: ["timer/animation"], status: "loads"}
 "examples/native/legendary/constellations/icon.rb": {category: "native/legendary/constellations", needs: [], status: "loads"}
+"examples/native/legendary/dwemthy/dwemthy.rb": {category: "native/legendary/dwemthy", needs: ["timer/animation", "audio"], status: "loads", steps: [{click: "Enter the Array"}, {click: "boomerang"}, {wait: 1}]}
+"examples/native/legendary/dwemthy/icon.rb": {category: "native/legendary/dwemthy", needs: [], status: "loads"}
 "examples/native/legendary/kaleidoscope/kaleidoscope.rb": {category: "native/legendary/kaleidoscope", needs: ["timer/animation"], status: "loads", steps: [{click: "Surprise me"}, {wait: 0.5}]}
 "examples/native/legendary/kaleidoscope/icon.rb": {category: "native/legendary/kaleidoscope", needs: [], status: "loads"}
 "examples/native/legendary/kanban/kanban.rb": {category: "native/legendary/kanban", needs: [], status: "loads"}

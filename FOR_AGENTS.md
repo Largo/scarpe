@@ -711,6 +711,7 @@ Copy from these; each runs under `peek` and has a check.
 | `examples/native/legendary/constellations/constellations.rb` | routes with captures, a seeded sky, a catalog in Application Support |
 | `examples/native/legendary/marble_machine/marble_machine.rb` | physics in `animate(60)` with hundreds of moving shapes |
 | `examples/native/legendary/pixel_pet/pixel_pet.rb` | state that remembers time away, sound, pixel art from ASCII |
+| `examples/native/legendary/dwemthy/dwemthy.rb` | an `edit_box` of Ruby the app compiles and runs, buttons made from what it defines, a stage that acts out what the Ruby printed, one drawing at any scale |
 | `examples/native/kids/balloon_pop/balloon_pop.rb` | synthesised sound with a mute, confetti, a font carried with the app |
 
 Their checks: `spec/showcase/*.sspec`, `spec/kids/*.sspec` and

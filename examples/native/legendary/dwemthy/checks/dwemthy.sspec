@@ -1,0 +1,79 @@
+---
+display: native
+testability: interactive
+timeout: 90
+----------- app code
+srand(2004)
+load File.join(Scarpe::Native::ROOT, "examples/native/legendary/dwemthy/dwemthy.rb")
+----------- test code
+require "json"
+app = Shoes.APPS.first
+texts = -> { paras.map(&:text) }
+log = -> { app.instance_variable_get(:@log).contents.map(&:text) }
+rabbit = -> { app.instance_variable_get(:@rabbit) }
+save = File.join(Dir.home, ".local", "share", "dwemthys_array", "rabbit.json")
+
+# The title page: the Array, between its brackets
+assert_includes texts.(), "Dwemthy's Array"
+assert_equal 6, Dwemthy::MONSTERS.size
+click_on "Enter the Array"
+
+# The arena: _why's rabbit, its four weapons, and the monkey at the front
+assert_equal Dwemthy::RABBIT, edit_box("@editor").text
+%w[boomerang sword lettuce bomb].each { |w| assert_includes texts.(), w, "the #{w} has a card" }
+assert_equal "IndustrialRaverMonkey", app.instance_variable_get(:@array).first.class.to_s
+assert_includes texts.(), "life 10"
+
+# A boomerang: the log says what the Ruby printed, and the card agrees with the Ruby
+click_on "boomerang"
+advance 6
+assert_includes log.(), ">> rabbit ^ dwemthy"
+assert log.().any? { |l| l.start_with?("[You hit with") }, "the boomerang hit something"
+assert_includes texts.(), "life #{rabbit.().life}", "the card shows the rabbit's real life"
+
+# A rabbit.rb that does not compile leaves the old rabbit standing
+before = rabbit.()
+edit_box("@editor").trigger_change("class Rabbit < Creature\n  life 10 +\n")
+click_on "Recompile the Rabbit"
+assert_match(/syntax error/, para("@status").text)
+assert_same before, rabbit.()
+
+# One that does: a braver rabbit with a weapon of its own
+hacked = <<~RUBY
+  class Rabbit < Creature
+    life 100000
+    strength 100000
+    charisma 44
+    weapon 4
+
+    # carrot laser
+    def +( enemy )
+      fight( enemy, 9000 )
+    end
+  end
+RUBY
+edit_box("@editor").trigger_change(hacked)
+click_on "Recompile the Rabbit"
+assert_equal 100_000, rabbit.().life
+assert_includes texts.(), "carrot laser", "a new operator becomes a new weapon"
+refute_includes texts.(), "boomerang", "and the old ones are gone"
+assert_equal hacked, JSON.parse(File.read(save))["source"], "rabbit.rb is kept"
+
+# Through the whole Array, one monster a swing
+6.times do |i|
+  break unless app.instance_variable_get(:@array)&.any?
+
+  click_on "carrot laser"
+  advance 8
+end
+assert_includes texts.(), "CHUNKY"
+assert_includes texts.(), "BACON!!"
+assert_includes texts.(), "+ life 100000", "the victory shows what you changed"
+assert_includes texts.(), "- life 10"
+assert texts.().any? { |t| t.include?("You invented the +") }
+assert_equal 1, JSON.parse(File.read(save))["wins"]
+
+# And round again
+click_on "Run the Array again"
+assert_equal 6, app.instance_variable_get(:@array).size
+assert_equal hacked, edit_box("@editor").text, "the hacked rabbit is still yours"
