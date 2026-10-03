@@ -1880,7 +1880,7 @@ Shoes.app(title: "Dwemthy's Array", width: W, height: H, resizable: false) do
   end
 
   def float_number(side, text, color)
-    x, y = side == :rabbit ? [80 + 40, rabbit_home_y - 10] : monster_middle.then { |mx, my| [mx - 40, [my - 110, 96].max] }
+    x, y = side == :rabbit ? [80 + 40, rabbit_home_y - 10] : monster_middle.then { |mx, my| [mx - 40, [my - 110, 124].max] }
     @floaty.append do
       @floats << { note: para(text, font: ROUND, size: 26, stroke: color, left: x.round, top: y.round, margin: 0), x: x.round, y: y, age: 0 }
     end
